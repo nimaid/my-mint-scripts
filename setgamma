@@ -1,0 +1,2 @@
+xrandr --output HDMI-1 --gamma $1:$2:$3
+xrandr --output eDP-1 --gamma $1:$2:$3

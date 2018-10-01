@@ -1,0 +1,28 @@
+#!/bin/sh
+if [ -z "$1" ]
+then
+    HOUR=$(date +"%H")
+else
+    HOUR=$1
+fi
+
+MORNING=/home/mint/Pictures/Wallpapers/adwaita-morning.jpg
+DAY=/home/mint/Pictures/Wallpapers/adwaita-day.jpg
+NIGHT=/home/mint/Pictures/Wallpapers/adwaita-night.jpg
+
+if [ "$HOUR" -lt "18" ]
+then
+    if [ "$HOUR" -lt "10" ]
+    then
+        if [ "$HOUR" -lt "6" ]
+        then
+            setwallpaper $NIGHT
+        else
+            setwallpaper $MORNING
+        fi
+    else
+        setwallpaper $DAY
+    fi
+else
+    setwallpaper $NIGHT
+fi

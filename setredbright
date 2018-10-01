@@ -1,0 +1,4 @@
+INT=${2:-.01}
+
+xrandr --output HDMI-1 --brightness $1 --gamma 1:$INT:$INT
+xrandr --output eDP-1 --brightness $1 --gamma 1:$INT:$INT
