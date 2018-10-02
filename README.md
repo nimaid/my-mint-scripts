@@ -21,7 +21,7 @@ Uses xrandr to set the RGB gamma of my displays. Run listdisplays to get the inf
 
 ## setredbright
 ### Argument 1: Brightness (1.0 = normal)
-### Argument 1: Green/Blue Gamma (1.0 = normal)
+### Argument 1: Green/Blue Gamma (1.0 = normal, go lower to make more red)
 Uses xrandr to set the brightness and "red-ness" of my displays. Run listdisplays to get the info to customize it.
 
 ## setwallpaper
