@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #resize -s 24 76
 clear
 ssh play@anonymine-demo.oskog97.com -p 2222

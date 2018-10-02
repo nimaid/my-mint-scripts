@@ -8,20 +8,26 @@ fi
 
 MORNING=/home/mint/Pictures/Wallpapers/adwaita-morning.jpg
 DAY=/home/mint/Pictures/Wallpapers/adwaita-day.jpg
+EVENING=$MORNING
 NIGHT=/home/mint/Pictures/Wallpapers/adwaita-night.jpg
 
-if [ "$HOUR" -lt "18" ]
+if [ "$HOUR" -lt "20" ]
 then
-    if [ "$HOUR" -lt "10" ]
+    if [ "$HOUR" -lt "18" ]
     then
-        if [ "$HOUR" -lt "6" ]
+        if [ "$HOUR" -lt "10" ]
         then
-            setwallpaper $NIGHT
+            if [ "$HOUR" -lt "6" ]
+            then
+                setwallpaper $NIGHT
+            else
+                setwallpaper $MORNING
+            fi
         else
-            setwallpaper $MORNING
+            setwallpaper $DAY
         fi
     else
-        setwallpaper $DAY
+        setwallpaper $EVENING
     fi
 else
     setwallpaper $NIGHT
