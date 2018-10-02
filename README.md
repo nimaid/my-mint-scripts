@@ -33,6 +33,7 @@ Uses gsettings to change the Cinnamon background to the specified file.
 Uses setwallpaper and date to set a background appropriate for the time of day. Change the MORNING, DAY, EVENING, and NIGHT variables (must be absolute paths!) to your favorite timed wallpaper set.
 I also suggest adding cron entries to run at boot and every hour, so that your wallpaper automagically updates. Here's what my working entries look like:
 > @reboot sudo runuser -l mint -c "updatewallpaper"
+
 > 0 * * * * sudo runuser -l mint -c "updatewallpaper"
 
 ## windows_sethc_backdoor
