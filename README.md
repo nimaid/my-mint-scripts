@@ -47,6 +47,6 @@ I also suggest adding cron entries to run at boot and every hour, so that your w
 
 ## windows_sethc_backdoor
 ### Argument 1: Target drive (like /dev/sda4)
-### Argument 2: Executable name (defaults to "sethc", but "Utilman" is good for newer Windows)
+### Argument 2 (Optional): Executable name (defaults to "sethc", but "Utilman" is good for newer Windows)
 Installs a physical access backdoor on a Windows NT drive that gives you an admin command prompt at the login screen if you press shift 5 times. This is for the IT work I do, it is useful to reset peoples passwords using a Live USB and "net user".
 If you do something dumb with this, it's your fault. I provide this script "as is" with no warranty, and no not take responsibility for how it is used by others.
