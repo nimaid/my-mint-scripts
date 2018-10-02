@@ -13,7 +13,7 @@ NIGHT=/home/mint/Pictures/Wallpapers/adwaita-night.jpg
 
 if [ "$HOUR" -lt "20" ]
 then
-    if [ "$HOUR" -lt "18" ]
+    if [ "$HOUR" -lt "17" ]
     then
         if [ "$HOUR" -lt "10" ]
         then
