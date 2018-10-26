@@ -12,6 +12,11 @@ This just connects you to the anonymine server through ssh. Enjoy a game of mine
 ### No arguments.
 This lists the connected displays with xrandr. Use this to customize setbright and setgamma to your setup.
 
+##remove-cdrom-sources
+### No arguments
+This removes any lines containing the string "cdrom" from "/etc/apt/sources.list". This is useful for a persistent live Mint install, as on each reboot it adds a cdrom deb that breaks apt.
+I suggest adding a cron entrt to run it at boot (after it has just been added :p)
+> @reboot sudo runuser -l mint -c "remove-cdrom-sources"
 
 ## setbright
 ### Argument 1: Brightness (1.0 = normal)

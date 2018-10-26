@@ -1,0 +1,4 @@
+#!/bin/bash
+
+grep -v "cdrom" /etc/apt/sources.list > /tmp/sources.list
+sudo mv /tmp/sources.list /etc/apt/sources.list
