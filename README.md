@@ -7,6 +7,9 @@ A place for me to store the custom /usr/local/bin/ scripts I write for my Mint 1
 ### No arguments.
 This just connects you to the anonymine server through ssh. Enjoy a game of minesweeper in ASCII wonder!
 
+## fix-cinnamon
+### No arguments.
+This fixes cinnamon when nothing else will. Ctrl+Alt+F1, run this. then Ctrl+Alt+F7.
 
 ## listdisplays
 ### No arguments.
