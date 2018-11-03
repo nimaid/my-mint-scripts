@@ -18,7 +18,7 @@ This lists the connected displays with xrandr. Use this to customize setbright a
 ## remove-cdrom-sources
 ### No arguments.
 This removes any lines containing the string "cdrom" from "/etc/apt/sources.list". This is useful for a persistent live Mint install, as on each reboot it adds a cdrom deb that breaks apt.
-I suggest adding a cron entrt to run it at boot (after it has just been added :p)
+I suggest adding a cron entry to run it at boot (after it has just been added :p)
 > @reboot sudo runuser -l mint -c "remove-cdrom-sources"
 
 ## setbright
