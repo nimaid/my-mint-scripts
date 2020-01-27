@@ -1,4 +1,16 @@
 #!/bin/bash
 
-xrandr --output HDMI-1 --brightness $1
-xrandr --output eDP-1 --brightness $1
+CONN_DISPS="$(xrandr | grep " connected " | awk '{ print$1 }')"
+
+BRIGHT=${1:-1.0}
+
+if (( $(echo "$BRIGHT <= 0.0" | bc -l) )); then
+    BRIGHT=0.1
+elif (( $(echo "$BRIGHT > 1.0" | bc -l) )); then
+    BRIGHT=1.0
+fi
+
+for DISP in $CONN_DISPS
+do
+    xrandr --output $DISP --brightness $BRIGHT
+done

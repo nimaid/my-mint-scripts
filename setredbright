@@ -1,6 +1,28 @@
 #!/bin/bash
+set -e
 
-INT=${2:-.01}
+CONN_DISPS="$(xrandr | grep " connected " | awk '{ print$1 }')"
 
-xrandr --output HDMI-1 --brightness $1 --gamma 1:$INT:$INT
-xrandr --output eDP-1 --brightness $1 --gamma 1:$INT:$INT
+BRIGHT=${1:-1.0}
+RED=${2:-1.0}
+
+if (( $(echo "$BRIGHT <= 0.0" | bc -l) )); then
+    BRIGHT=0.1
+elif (( $(echo "$BRIGHT > 1.0" | bc -l) )); then
+    BRIGHT=1.0
+fi
+
+RED=$(awk '{print $1-$2}' <<< "1 $RED")
+
+if (( $(echo "$RED <= 0.0" | bc -l) )); then
+    RED=0.00001
+elif (( $(echo "$RED > 1.0" | bc -l) )); then
+    RED=1.0
+fi
+
+INT=${RED:-.01}
+
+for DISP in $CONN_DISPS
+do
+    xrandr --output $DISP --brightness $BRIGHT --gamma 1:$INT:$INT
+done

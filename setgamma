@@ -1,4 +1,24 @@
 #!/bin/bash
 
-xrandr --output HDMI-1 --gamma $1:$2:$3
-xrandr --output eDP-1 --gamma $1:$2:$3
+CONN_DISPS="$(xrandr | grep " connected " | awk '{ print$1 }')"
+
+RED=${1:-1.0}
+GREEN=${2:-1.0}
+BLUE=${3:-1.0}
+
+if (( $(echo "$RED <= 0.0" | bc -l) )); then
+    RED=0.00001
+fi
+
+if (( $(echo "$GREEN <= 0.0" | bc -l) )); then
+    GREEN=0.00001
+fi
+
+if (( $(echo "$BLUE <= 0.0" | bc -l) )); then
+    BLUE=0.00001
+fi
+
+for DISP in $CONN_DISPS
+do
+    xrandr --output $DISP --gamma $RED:$GREEN:$BLUE
+done
